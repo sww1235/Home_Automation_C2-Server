@@ -47,7 +47,7 @@ func main() {
 // returns a string slice with all status info for servers.
 func getNetworkStatus(queryString string) []string {
 	statusReports := make([]string, len(serverList)) //TODO determine status query string
-	for IP, _ := range serverList {
+	for IP := range serverList {
 		statusReports = append(statusReports, networkQuery(queryString, net.ParseIP(IP)))
 	}
 	return statusReports
@@ -57,7 +57,7 @@ func getNetworkStatus(queryString string) []string {
 //transmits the packets and recieves and returns the response as a string
 //TODO decide on exact return value
 func networkQuery(s string, ip net.IP) string {
-	var response string = ""
+	var response string
 
 	return response
 }
@@ -129,7 +129,7 @@ func createMacAddress(macType rune) net.HardwareAddr {
 
 }
 
-func pullFromDatabase() int{
+func pullFromDatabase() int {
 	//implement database functions here
 	return 0
 }
@@ -151,7 +151,7 @@ func closeFileHandle(f *os.File) {
 //have meta list of all query strings
 //take config options passed in and generate source file
 //return fullPath which is the path to the generated source file
-func clientSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, IPAddresses []net.IP, C2_IP net.IP, C2_query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
+func clientSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, IPAddresses []net.IP, C2IP net.IP, C2query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
 	fullPath := path.Join(rootPath, serverList[net.IP.String(selfIP)], time.Now().Format(time.RFC822))
 	inFile := createFileHandle(fullPath)
 	defer closeFileHandle(inFile)
@@ -174,7 +174,7 @@ func clientSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStr
 
 //serverSourceGen takes config options passed in and generate source file.
 //It returns fullPath which is the path to the generated source file
-func serverSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, C2_IP net.IP, C2_query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
+func serverSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, C2IP net.IP, C2query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
 	fullPath := path.Join(rootPath, serverList[net.IP.String(selfIP)], time.Now().Format(time.RFC822))
 	inFile := createFileHandle(fullPath)
 	defer closeFileHandle(inFile)
