@@ -81,15 +81,22 @@ func receiveFromClient(port int) {
 //possible values for internally managed mac addresses, 2, 6, A, E, where the
 //value is directly passed in and checked in the function.
 func addDevice(macType rune, ip1Digit int, ip2Digit int) {
-	macAddr := createMacAddress(macType)
+	var macAddr net.HardwareAddr
 
+	for stringSliceContains(macAddr.String(), macList) {
+		macAddr := createMacAddress(macType)
+	}
 	//generate mac address and IP address
 	//check if they are already in database
 	//prompt to connect
 }
 
+//createMacAddress generates a random MAC address in the internally managed
+//MAC space. macType can be one of
 func createMacAddress(macType rune) net.HardwareAddr {
 	//testMAC, _ := net.ParseMAC(02:00:00:00:00)
+	//TODO: add tests for exausted internal MAC space of type macType, add bool
+	//return value
 	rand.Seed(time.Now().Unix())
 	macDigits := make([]int, 10)
 	macChars := make([]string, 10)
@@ -198,4 +205,13 @@ func serverSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStr
 
 	}
 	return fullPath
+}
+
+func stringSliceContains(str string, list []string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }
