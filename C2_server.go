@@ -98,10 +98,10 @@ func createMacAddress(macType rune) net.HardwareAddr {
 	//TODO: add tests for exausted internal MAC space of type macType, add bool
 	//return value
 	rand.Seed(time.Now().Unix())
-	macDigits := make([]int, 10)
-	macChars := make([]string, 10)
+	macDigits := make([]int, 12)
+	macChars := make([]string, 12)
 
-	for i := 0; i < 10; i++ { //generate 11 random integer digits
+	for i := 0; i < 12; i++ { //generate 11 random integer digits
 		if i == 1 { //this means that index 1 does not get set
 			continue
 		}
@@ -129,7 +129,7 @@ func createMacAddress(macType rune) net.HardwareAddr {
 		macChars[i] = fmt.Sprintf("%v", strconv.FormatInt(int64(digit), 16))
 	}
 	//fmt.Println(macChars)
-	tempString := macChars[0] + macChars[1] + ":" + macChars[2] + macChars[3] + ":" + macChars[4] + macChars[5] + ":" + macChars[6] + macChars[7] + ":" + macChars[8] + macChars[9]
+	tempString := macChars[0] + macChars[1] + ":" + macChars[2] + macChars[3] + ":" + macChars[4] + macChars[5] + ":" + macChars[6] + macChars[7] + ":" + macChars[8] + macChars[9] + ":" + macChars[10] + macChars[11]
 	//fmt.Println(tempString)
 	macAddress, _ := net.ParseMAC(tempString)
 	return macAddress
