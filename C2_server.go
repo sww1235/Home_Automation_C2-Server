@@ -82,7 +82,7 @@ func receiveFromClient(port int) {
 //value is directly passed in and checked in the function.
 func addDevice(macType rune, ip1Digit int, ip2Digit int) {
 	var macAddr net.HardwareAddr
-
+	//TODO: Change macList to map with hostname as key
 	for stringSliceContains(macAddr.String(), macList) {
 		macAddr := createMacAddress(macType)
 	}
