@@ -5,10 +5,11 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"os"
 	"path"
 	"strconv"
 	"time"
+
+	"github.com/sww1235/fileHandling"
 )
 
 //[key is string representation of ip address x.x.x.x]
@@ -141,29 +142,15 @@ func pullFromDatabase() int {
 	return 0
 }
 
-func createFileHandle(path string) *os.File {
-	f, err := os.Open("")
-	if err != nil {
-		log.Panicf("Failed opening file %s", path)
-		log.Panicln(err)
-	}
-	return f
-}
-
-func closeFileHandle(f *os.File) {
-	log.Printf("Closing file %s", f.Name())
-	f.Close()
-}
-
 //have meta list of all query strings
 //take config options passed in and generate source file
 //return fullPath which is the path to the generated source file
 func clientSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, IPAddresses []net.IP, C2IP net.IP, C2query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
 	fullPath := path.Join(rootPath, serverList[net.IP.String(selfIP)], time.Now().Format(time.RFC822))
-	inFile := createFileHandle(fullPath)
-	defer closeFileHandle(inFile)
-	outFile := createFileHandle(fullPath)
-	defer closeFileHandle(outFile)
+	inFile := fileHandling.CreateFileHandle(fullPath)
+	defer fileHandling.CloseFileHandle(inFile)
+	outFile := fileHandling.CreateFileHandle(fullPath)
+	defer fileHandling.CloseFileHandle(outFile)
 	switch deviceType {
 	case "LED client":
 		//needs array of 10 server ip addresses, array of 10 query strings,
@@ -183,10 +170,10 @@ func clientSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStr
 //It returns fullPath which is the path to the generated source file
 func serverSourceGen(selfIP net.IP, rootPath string, deviceType string, queryStrings []string, C2IP net.IP, C2query net.IP, MAC net.HardwareAddr, port int, DNS net.IP, gateway net.IP, subnet net.IP) string {
 	fullPath := path.Join(rootPath, serverList[net.IP.String(selfIP)], time.Now().Format(time.RFC822))
-	inFile := createFileHandle(fullPath)
-	defer closeFileHandle(inFile)
-	outFile := createFileHandle(fullPath)
-	defer closeFileHandle(outFile)
+	inFile := fileHandling.CreateFileHandle(fullPath)
+	defer fileHandling.CloseFileHandle(inFile)
+	outFile := fileHandling.CreateFileHandle(fullPath)
+	defer fileHandling.CloseFileHandle(outFile)
 	switch deviceType {
 	//case "Other server":
 	//needs array of query strings to respond to,
